@@ -29,7 +29,6 @@ function App() {
       fetch(url)
       .then(res => res.json())
       .then(json => {
-        console.log(json)
         setJokes([json.value])
       })
     }
@@ -38,7 +37,6 @@ function App() {
       fetch(url)
       .then(res => res.json())
       .then(json => {
-        console.log(json)
         setJokes([json.value])
       })
     }
@@ -47,13 +45,13 @@ function App() {
       fetch(url)
       .then(res => res.json())
       .then(res => {
-        console.log(res)
-        setJokes(res.result.map(json => json.value))
+        if(res.result.length === 0) setJokes(["Chuck Norris doesn't find your search query very funny."]);
+        else setJokes(res.result.map(json => json.value));
       })
     }
   }
 
-  const changeCategory = e => setCategory(e.target.value)
+  const changeCategory = e => setCategory(e.target.value);
 
   return (
     <div className="App">
