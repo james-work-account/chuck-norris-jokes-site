@@ -1,26 +1,56 @@
 import React, { useEffect, useState } from 'react';
 import Header from './components/Header';
-import Twitter from './components/Twitter';
-import Form from './components/Form';
+import CategoryForm from './components/forms/CategoryForm';
+import QueryForm from './components/forms/QueryForm';
+import BasicForm from './components/forms/BasicForm';
+import Tabs from './components/Tabs';
+import Joke from './components/Joke';
 
 function App() {
-  const [fact, setFact] = useState("")
+  const [jokes, setJokes] = useState([])
   const [category, setCategory] = useState("")
   const [categories, setCategories] = useState([])
+  const [query, setQuery] = useState("")
+  const [tab, setTab] = useState("random")
 
   useEffect(() => {
     const url = "https://api.chucknorris.io/jokes/categories"
     fetch(url)
       .then(res => res.json())
-      .then(json => setCategories(["", ...json]))
+      .then(json => setCategories([...json]))
   }, [])
 
-  const getFact = (e) => {
+  const getJokes = (e) => {
     e.preventDefault()
-    const url = `https://api.chucknorris.io/jokes/random${category.length > 0 ? `?category=${category}` : ""}`
-    fetch(url)
+    const baseUrl = "https://api.chucknorris.io/jokes/"
+    let url = ""
+    if(tab === "random") {
+      url = `${baseUrl}random`;
+      fetch(url)
       .then(res => res.json())
-      .then(json => setFact(json.value))
+      .then(json => {
+        console.log(json)
+        setJokes([json.value])
+      })
+    }
+    if(tab === "category") {
+      url = baseUrl + `random${category === "" ? "" : `?category=${category}`}`;
+      fetch(url)
+      .then(res => res.json())
+      .then(json => {
+        console.log(json)
+        setJokes([json.value])
+      })
+    }
+    if(tab === "query") {
+      url = baseUrl + `search?query=${query}`;
+      fetch(url)
+      .then(res => res.json())
+      .then(res => {
+        console.log(res)
+        setJokes(res.result.map(json => json.value))
+      })
+    }
   }
 
   const changeCategory = e => setCategory(e.target.value)
@@ -29,16 +59,22 @@ function App() {
     <div className="App">
       <Header />
       <main>
+        <Tabs tab={tab} setTab={setTab} />
         {
-          categories.length > 0 &&
-            <Form getFact={getFact} changeCategory={changeCategory} categories={categories} />
+          tab === "random" &&
+            <BasicForm getJokes={getJokes} />
         }
         {
-          fact.length > 0 && (
-            <>
-              <p>{fact}</p>
-              <Twitter fact={fact}/>
-            </>
+          tab === "category" && categories.length > 0 &&
+            <CategoryForm getJokes={getJokes} changeCategory={changeCategory} categories={categories} />
+        }
+        {
+          tab === "query" &&
+            <QueryForm getJokes={getJokes} setQuery={setQuery} query={query} />
+        }
+        {
+          jokes.map((joke, i) =>
+            <Joke key={i} joke={joke} />
           )
         }
       </main>
