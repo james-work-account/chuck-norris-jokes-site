@@ -137,6 +137,11 @@ div.joke {
   margin-top: 20px;
   padding: 1rem;
 
+  p {
+    font-size: 1.2rem;
+    margin-top: 0;
+  }
+
   &:hover {
     transform: translate(2px, 2px);
       transition: ease-in-out 150ms;
