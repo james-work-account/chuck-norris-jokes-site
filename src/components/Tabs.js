@@ -9,7 +9,7 @@ const Tabs = ({tab, setTab}) => {
     }
 
     return (<>
-        <button className="hamburger" onClick={() => setOpen(!open)}><i className="fas fa-bars"></i></button>
+        <button aria-label="Toggle hamburger menu" className="hamburger" onClick={() => setOpen(!open)}><i className="fas fa-bars"></i></button>
         <nav className={`tabs${open ? " open" : ""}`}>
             <h2>Choose a search method:</h2>
             <ul>
