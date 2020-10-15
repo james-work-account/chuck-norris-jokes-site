@@ -22,6 +22,7 @@
 }
 
 $twitter-colour: #55acee;
+$favourites-colour: #F6C03E;
 
 * {
   -webkit-box-sizing: border-box;
@@ -31,7 +32,8 @@ $twitter-colour: #55acee;
 body {
   font-family: "Poppins", sans-serif;
   margin: 0;
-  min-height: 100vh;
+  max-height: 100vh;
+  overflow: auto;
   font-size: 14px
 }
 
@@ -56,6 +58,10 @@ main {
   padding: 1rem;
 }
 
+button.hamburger {
+  display: none
+}
+
 nav {
   ul {
     list-style-type: none;
@@ -68,14 +74,14 @@ nav {
       background-color: #ccc;
       transition: ease-in-out 0.2s;
       border: 2px solid #ccc;
+      margin-right: 5px;
 
       &.active {
         background-color: white;
         border-bottom: 2px solid white;
 
-        &:hover, &:active {
-          background-color: #eee;
-          border-bottom: 2px solid #eee;
+        &.favourites i {
+          color: $favourites-colour;
         }
       }
 
@@ -94,6 +100,10 @@ nav {
   }
 }
 
+.visually-hidden-large {
+  display: none;
+}
+
 form {
   animation: fadeIn ease 0.5s;
   display: grid;
@@ -101,7 +111,7 @@ form {
   grid-column-gap: 1rem;
 
   &.random {
-    grid-template-columns: 1fr;
+    grid-template-columns: auto;
   }
 
   * {
@@ -139,32 +149,64 @@ div.joke {
 
   p {
     font-size: 1.2rem;
-    margin-top: 0;
+    margin: 0;
   }
 
   &:hover {
     transform: translate(2px, 2px);
-      transition: ease-in-out 150ms;
-  }
-}
-
-.twitter-share-button {
-  display: block;
-  margin-top: 1rem;
-  padding: 1rem;
-  font-size: 1.5rem;
-  color: $twitter-colour;
-  border: 3px solid $twitter-colour;
-  border-radius: 0.5rem;
-  text-decoration: none;
-
-  &:hover, &:active {
-    color: white;
-    background-color: $twitter-colour;
+    transition: ease-in-out 150ms;
   }
 
-  i {
-    margin-right: 1rem;
+  .interact {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-column-gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .twitter-share-button {
+    // display: block;
+    padding: 1rem;
+    font-size: 1.5rem;
+    color: $twitter-colour;
+    border: 3px solid $twitter-colour;
+    border-radius: 0.5rem;
+    text-decoration: none;
+
+    &:hover, &:active {
+      color: white;
+      background-color: $twitter-colour;
+    }
+
+    i {
+      margin-right: 1rem;
+    }
+  }
+
+  .favourite {
+    padding: 1rem;
+    font-family: inherit;
+    font-size: 1.5rem;
+    color: $favourites-colour;
+    border: 3px solid $favourites-colour;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    text-align: left;
+    background-color: white;
+
+    &:hover, &:active, &.added {
+      color: white;
+      background-color: $favourites-colour;
+    }
+
+    &.are-you-sure {
+      background-color: #D1383D;
+      color: white;
+    }
+
+    i {
+      margin-right: 1rem;
+    }
   }
 }
 
@@ -173,18 +215,95 @@ div.joke {
   100% {opacity:1;}
 }
 
-@media(max-width:750px) {
-  button, input, select {
-    font-size: 1.1rem !important;
-  }
-
-  nav ul {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-  }
+@media(max-width:600px) {
 
   form {
     grid-template-columns: 1fr;
     grid-row-gap: 1rem;
+  }
+}
+
+@media(max-width:530px) {
+
+  .visually-hidden-large {
+    display: block;
+  }
+
+  main {
+    padding: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  header {
+    h1 {
+      margin-bottom: 1rem;
+    }
+  }
+
+  button.hamburger {
+    @include button-styling;
+    display: block;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 1.5rem !important;
+    float: right;
+    position: relative;
+    z-index: 1000;
+    clear: both;
+    margin-bottom: 1rem;
+  }
+
+  nav {
+    position: fixed;
+    width: 100vw;
+    background-color: white;
+    transform: translate(100vw, 2.5rem);
+    transition: ease-in-out 0.2s;
+    padding-top: 2rem;
+    height: 100vh;
+    &.open {
+      transform: translate(0, 2.5rem);
+    }
+
+    h2 {
+      margin: 0;
+      padding: 1rem 0;
+    }
+
+    ul {
+      display: grid;
+      padding-bottom: 2px;
+      border-bottom: 2px solid black;
+      grid-template-columns: auto;
+      margin: 0;
+
+      li {
+        margin: 0;
+
+        button {
+          display: flex;
+
+          i {
+            margin-right: 1rem;
+          }
+
+        }
+      }
+    }
+  }
+
+  .interact > * {
+    text-align: center !important;
+  }
+
+  .interact > i {
+    margin: 0 !important;
+    font-size: 30px;
+  }
+
+  span.text {
+    display: none;
   }
 }
