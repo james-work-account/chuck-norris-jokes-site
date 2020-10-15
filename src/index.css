@@ -2,6 +2,13 @@
 * {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
+  -ms-touch-action: manipulation;
+      touch-action: manipulation;
+}
+
+button, input {
+  -webkit-appearance: none !important;
+  border-radius: 0;
 }
 
 body {
@@ -216,7 +223,7 @@ div.joke .favourite {
   background-color: white;
 }
 
-div.joke .favourite:hover, div.joke .favourite:active, div.joke .favourite.added {
+div.joke .favourite.added {
   color: white;
   background-color: #F6C03E;
 }
@@ -339,15 +346,33 @@ div.joke .favourite i {
   nav ul li button i {
     margin-right: 1rem;
   }
-  .interact > * {
-    text-align: center !important;
+  div.joke:hover {
+    -webkit-transform: none;
+    transform: none;
   }
-  .interact > i {
+  .interact > * {
+    padding: 0.5rem;
+    text-align: center !important;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+  }
+  .interact i {
     margin: 0 !important;
     font-size: 30px;
   }
   span.text {
-    display: none;
+    font-size: 16px;
   }
 }
 /*# sourceMappingURL=index.css.map */

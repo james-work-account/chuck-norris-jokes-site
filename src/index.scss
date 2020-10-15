@@ -27,6 +27,12 @@ $favourites-colour: #F6C03E;
 * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  touch-action: manipulation;
+}
+
+button, input {
+  -webkit-appearance: none !important;
+  border-radius: 0;
 }
 
 body {
@@ -194,7 +200,7 @@ div.joke {
     text-align: left;
     background-color: white;
 
-    &:hover, &:active, &.added {
+    &.added {
       color: white;
       background-color: $favourites-colour;
     }
@@ -294,16 +300,29 @@ div.joke {
     }
   }
 
-  .interact > * {
-    text-align: center !important;
+  div.joke {
+    &:hover {
+      -webkit-transform: none;
+      transform: none;
+    }
   }
 
-  .interact > i {
+  .interact > * {
+    padding: 0.5rem;
+
+    text-align: center !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .interact i {
     margin: 0 !important;
     font-size: 30px;
   }
 
   span.text {
-    display: none;
+    font-size: 16px
   }
 }
